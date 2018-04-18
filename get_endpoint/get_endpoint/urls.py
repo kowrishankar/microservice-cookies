@@ -23,6 +23,8 @@ from endpoint import one_time_startup
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('getDataFromAnalytics/', views.getDataFromAnalytics),
+    path('getCBStats/', views.getCBStats)
     #path('getEndpoint/', views.getEndpoint)
 ]
 

@@ -9,8 +9,14 @@ def on_request(channel, method_frame, header_frame, body):
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
     channel = connection.channel()
     channel.queue_declare(queue='endpointResponses')
+    channel.queue_declare(queue='eventStore')
 
-    channel.basic_publish(exchange='', routing_key='endpointResponses', body=responseBody)
+    channel.exchange_declare(exchange='gareth', exchange_type='fanout')
+
+    channel.queue_bind('endpointResponses', 'gareth')
+    channel.queue_bind('eventStore', 'gareth')
+
+    channel.basic_publish(exchange='gareth', body=responseBody, routing_key='')
     connection.close()
     print('Response Message published...')
 

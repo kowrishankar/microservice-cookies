@@ -16,7 +16,7 @@ def start():
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
     channel = connection.channel()
 
-    channel.queue_declare(queue='endpointResponses')
+    channel.queue_declare(queue='eventStore')
 
-    channel.basic_consume(on_request, queue='endpointResponses', no_ack=True)
+    channel.basic_consume(on_request, queue='eventStore', no_ack=True)
     channel.start_consuming()
