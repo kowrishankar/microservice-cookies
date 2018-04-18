@@ -1,0 +1,22 @@
+version: '2'
+services:
+  rabbit:
+    image: rabbitmq:3.6.2-management
+  test:
+    build: tests/
+    depends_on:
+      - rabbit
+    volumes:
+      - ./test-results:/usr/src/app/test-results
+  event_store:
+    build: event_store/
+    depends_on:
+      - rabbit
+  analytics:
+    build: save_analytics/
+    depends_on:
+      - rabbit
+  get_endpoint:
+    build: get_endpoint/
+    depends_on:
+      - rabbit
